@@ -27,7 +27,8 @@ $username="";
 
       $result=$conn->query($query);
       $id=mysqli_fetch_assoc($result);
-      echo "id is $id[ID]";
+      header("Location:mainpageapp");
+      exit();
     }
     catch(Exception $e){
       echo "error is".$e;
