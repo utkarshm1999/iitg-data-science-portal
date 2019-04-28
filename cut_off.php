@@ -28,12 +28,6 @@ session_start();
     $query="SELECT * FROM applications ORDER by gate_score DESC";
     try{
 
-//       $to      = 'keert170101031@iitg.ac.in';
-// $subject = 'dekh le aggu';
-// $message = 'tu bhi likh le';
-// $headers = 'From: harpavatkeerti@gmail.com' . "\r\n" .
-//     'X-Mailer: PHP/' . phpversion();
-//       mail($to, $subject, $message);
         if($res = mysqli_query($conn, $query))
         {
           if(mysqli_num_rows($res) > 0)

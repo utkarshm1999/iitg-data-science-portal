@@ -1,3 +1,69 @@
+
+
+
+
+
+
+<?php
+error_reporting(E_ALL ^ E_NOTICE );
+error_reporting(E_ERROR | E_PARSE);
+//session based login system
+session_start();
+if(isset($_POST["submit"]))
+{
+  if($_SERVER["REQUEST_METHOD"]=="POST"){
+
+    $name = $_FILES['myfile']['name'];
+    $file = addslashes($_FILES['myfile']['tmp_name']);
+    $file = file_get_contents($file);
+    $file = base64_encode($file);
+    $data = $file;
+    $tableName = "assignments";
+
+    $host="localhost";
+    $db="ds-portal";
+    $dsn= "mysql:host=$host;dbname=$db";
+    $conn=new mysqli();
+    $conn=new mysqli($host,"root","",$db);
+    if($conn->connect_error){
+      die("Connection failed: " . $conn->connect_error);
+      echo "failed";
+    }
+
+    if(isset($name)){
+        if(!empty($name)){
+          echo $name;
+          $query="INSERT INTO assignments (id,Attachment) VALUES (DEFAULT,'$data');";
+          echo $query;
+            try
+            {
+            //  echo $query;
+            if ($conn->query($query) == TRUE) {
+                $msg = "Successfully uploaded";
+                echo "<script type='text/javascript'>alert('$msg');</script>";
+            } else {
+              echo "<script type='text/javascript'>alert('Failed!!!');</script>";    }
+            }
+            catch(Exception $e)
+            {
+              echo "error is".$e;
+            }
+          }
+      }
+     else {
+        echo 'You should select a file to upload !!';
+    }
+
+    $conn->close();
+    }
+
+}
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -137,12 +203,18 @@
     </section>
 
     <hr class="m-0">
-
+    <form class="needs-validation" action="index.php" enctype="multipart/form-data" method="post">
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="apply">
       <div class="w-100">
         <h2 class="mb-5">Education</h2>
-
-        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+        <div class="mb-3">
+        <label for="file"></label>
+          <input type="file" class="form-control" name="myfile" placeholder="" required>
+          <div class="invalid-feedback">
+            Please upload file.
+          </div>
+        </div>
+        <!-- <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
           <div class="resume-content">
             <h3 class="mb-0">University of Colorado Boulder</h3>
             <div class="subheading mb-3">Bachelor of Science</div>
@@ -163,11 +235,15 @@
           <div class="resume-date text-md-right">
             <span class="text-primary">August 2002 - May 2006</span>
           </div>
-        </div>
+        </div> -->
+
+
+
+        <button name= "submit" class="btn btn-lg btn-primary btn-block" type="submit">Upload</button>
 
       </div>
     </section>
-
+</form>
     <hr class="m-0">
 
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="results">
@@ -234,7 +310,7 @@
 
     <hr class="m-0">
 
-  
+
 
 
 
