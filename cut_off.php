@@ -1,8 +1,10 @@
 <?php
+
 error_reporting(E_ALL ^ E_NOTICE );
 error_reporting(E_ERROR | E_PARSE);
 //session based login system
 session_start();
+
     // $firstname = $_POST["firstName"];
     // $lastname=$_POST["lastName"];
     // $dob=$_POST["dob"];

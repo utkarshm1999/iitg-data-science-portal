@@ -1,13 +1,22 @@
+<<<<<<< HEAD
 <?php
+=======
+
+<?php
+
+>>>>>>> ut
 error_reporting(E_ALL ^ E_NOTICE );
 error_reporting(E_ERROR | E_PARSE);
 //session based login system
 session_start();
+<<<<<<< HEAD
 
 $target_dir = "/uploads";
 $target_file = $target_dir . basename($_FILES["upload_file"]["name"]);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+=======
+>>>>>>> ut
 if(isset($_POST["submit"]))
 {
   if($_SERVER["REQUEST_METHOD"]=="POST"){
@@ -20,6 +29,7 @@ if(isset($_POST["submit"]))
     $roll=$_POST["roll"];
     $score=$_POST["score"];
 
+<<<<<<< HEAD
     // $target_dir = "uploads/";
     // $target_file = $target_dir . basename($_FILES["file_to_upload"]["name"]);
     //
@@ -106,6 +116,8 @@ if(isset($_POST["submit"]))
     //
     // }
   //  $file=$POST["upload_file"];
+=======
+>>>>>>> ut
     $host="localhost";
     $db="ds-portal";
     $dsn= "mysql:host=$host;dbname=$db";
@@ -117,15 +129,27 @@ if(isset($_POST["submit"]))
     }
   //  echo $username."  ".$pwd;
   //  echo $conn;
+<<<<<<< HEAD
     $query="INSERT INTO applications (apply_id, first_name, last_name, dob, gender, email, address, gate_roll_no, gate_score,file) VALUES (DEFAULT,'$firstname','$lastname','$dob','$gender','$email','$address','$roll','$score','$file')";
+=======
+    $query="INSERT INTO applications (apply_id, first_name, last_name, dob, gender, email, address, gate_roll_no, gate_score) VALUES (DEFAULT,'$firstname','$lastname','$dob','$gender','$email','$address','$roll','$score')";
+>>>>>>> ut
     if ($conn->query($query) === TRUE) {
         $msg = "Your application number is: " . mysqli_insert_id($conn);
         echo "<script type='text/javascript'>alert('$msg');</script>";
     } else {
       echo "<script type='text/javascript'>alert('Failed!!!');</script>";    }
+<<<<<<< HEAD
     $conn->close();
   }
 }
+=======
+
+    $conn->close();
+  }
+}
+
+>>>>>>> ut
 ?>
 
 
@@ -156,6 +180,10 @@ if(isset($_POST["submit"]))
         -ms-user-select: none;
         user-select: none;
       }
+<<<<<<< HEAD
+=======
+
+>>>>>>> ut
       @media (min-width: 768px) {
         .bd-placeholder-img-lg {
           font-size: 3.5rem;
@@ -176,7 +204,11 @@ the CSE, ECE, EE or Math department, having a valid GATE score.</p>
 
     <div class="col-md-8 order-md-1">
       <h4 class="mb-3">Personal Details</h4>
+<<<<<<< HEAD
       <form class="needs-validation" action="application_form.php" enctype="multipart/form-data" method="post">
+=======
+      <form class="needs-validation" action="application_form.php" method="post">
+>>>>>>> ut
         <div class="row">
           <div class="col-md-6 mb-3">
             <label for="firstName">First name</label>
@@ -245,6 +277,7 @@ the CSE, ECE, EE or Math department, having a valid GATE score.</p>
           </div>
         </div>
 
+<<<<<<< HEAD
         <div class="mb-3">
         <label for="upload_file"></label>
           <input type="file" class="form-control" name="upload_file" placeholder="" required>
@@ -257,6 +290,17 @@ the CSE, ECE, EE or Math department, having a valid GATE score.</p>
         //This gets all the other information from the form
         $Filename=basename( $_FILES['Filename']['name']);
         $Description=$_POST['Description'];
+=======
+
+        <!-- $target = "pics/";
+        $target = $target . basename( $_FILES['Filename']['name']);
+
+        //This gets all the other information from the form
+        $Filename=basename( $_FILES['Filename']['name']);
+        $Description=$_POST['Description'];
+
+
+>>>>>>> ut
         //Writes the Filename to the server
         if(move_uploaded_file($_FILES['Filename']['tmp_name'], $target)) {
             //Tells you if its all ok
@@ -264,6 +308,10 @@ the CSE, ECE, EE or Math department, having a valid GATE score.</p>
             // Connects to your Database
             mysql_connect("localhost", "root", "") or die(mysql_error()) ;
             mysql_select_db("altabotanikk") or die(mysql_error()) ;
+<<<<<<< HEAD
+=======
+
+>>>>>>> ut
             //Writes the information to the database
             mysql_query("INSERT INTO picture (Filename,Description)
             VALUES ('$Filename', '$Description')") ;

@@ -1,69 +1,4 @@
 
-<?php
-$pwd="";
-$username="";
-  if($_SERVER["REQUEST_METHOD"]=="POST"){
-    $pwd="";
-    $username="";
-
-    $username = $_POST['inputEmail'];
-    $pwd=$_POST["inputPassword"];
-    $host="localhost";
-    $db="ds-portal";
-    $dsn= "mysql:host=$host;dbname=$db";
-    $conn=new mysqli();
-    $conn=new mysqli($host,"root","",$db);
-    if($conn->connect_error){
-      die("Connection failed: " . $conn->connect_error);
-      echo "failed";
-    }
-  //  echo $username."  ".$pwd;
-  //  echo $conn;
-    $query="SELECT ID FROM users WHERE userid='$username'";
-
-
-
-    try{
-
-      $result=$conn->query($query);
-      $id=mysqli_fetch_assoc($result);
-      echo "id is $id[ID]";
-    }
-    catch(Exception $e){
-      echo "error is".$e;
-    }
-
-    $conn->close();
-
-
-  }
-  /*  try{
-      $conn = new PDO($dsn, "root", "");
-      try{
-        $id=$conn->exec($query);
-        echo $id;
-      }
-      catch(Exception $e){
-        echo "error in fetching ".$e->getMessage();
-      }
-
-
-
-
-    }
-    catch(PDOException $e){
-        echo "error in login ".$e->getMessage();
-    }*/
-
-
-  //  echo "hey, $username" ;
-
-
-
-
-
-
- ?>
 
 <!doctype html>
  <html lang="en">
@@ -112,6 +47,98 @@ $username="";
    <input  id="inputEmail"  name="inputEmail" class="form-control" placeholder="Email address" required autofocus>
    <label for="inputPassword" class="sr-only">Password</label>
    <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
+   <?php
+   $pwd="";
+   $username="";
+     if($_SERVER["REQUEST_METHOD"]=="POST"){
+       $pwd="";
+       $username="";
+
+       $username = $_POST['inputEmail'];
+       $pwd=$_POST["inputPassword"];
+       $host="localhost";
+       $db="ds-portal";
+       $dsn= "mysql:host=$host;dbname=$db";
+       $conn=new mysqli();
+       $conn=new mysqli($host,"root","",$db);
+       if($conn->connect_error){
+         die("Connection failed: " . $conn->connect_error);
+         echo "failed";
+       }
+     //  echo $username."  ".$pwd;
+     //  echo $conn;
+       $query="SELECT password,usertype FROM users WHERE userid='$username'";
+
+
+
+       try{
+
+         $result=$conn->query($query);
+         $res_pwd=mysqli_fetch_assoc($result);
+       //  echo "res pwd is ".$res_pwd["password"]." and pwd is ".$pwd;
+         if($res_pwd["password"]==$pwd){
+
+           if($res_pwd["usertype"]=="applicant"){
+             header("Location:mainpageapp");
+             exit();
+           }
+           else if($res_pwd["usertype"]=="staff"){
+             header("Location:mainpagestaff");
+             exit();
+           }
+           else if($res_pwd["usertype"]=="faculty"){
+             header("Location:mainpagefaculty");
+             exit();
+           }
+
+
+         }
+         else{
+           $error_val="**Invalid password or Username";
+
+           ?>
+
+           <label > <?php echo $error_val; ?> </label>
+         <?php
+
+         }
+       }
+       catch(Exception $e){
+         echo "error is".$e;
+       }
+
+       $conn->close();
+
+
+     }
+     /*  try{
+         $conn = new PDO($dsn, "root", "");
+         try{
+           $id=$conn->exec($query);
+           echo $id;
+         }
+         catch(Exception $e){
+           echo "error in fetching ".$e->getMessage();
+         }
+
+
+
+
+       }
+       catch(PDOException $e){
+           echo "error in login ".$e->getMessage();
+       }*/
+
+
+     //  echo "hey, $username" ;
+
+
+
+
+
+
+    ?>
+
    <br><br>
 
    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
