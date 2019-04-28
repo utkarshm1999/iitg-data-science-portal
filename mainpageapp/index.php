@@ -12,6 +12,8 @@
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+
 
   <!-- Custom fonts for this template -->
   <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
@@ -19,7 +21,19 @@
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="css/owl.carousel.min.css"/>
+	<link rel="stylesheet" href="css/magnific-popup.css"/>
+	<link rel="stylesheet" href="css/animate.css"/>
+
+
+
+
   <link href="css/resume.min.css" rel="stylesheet">
+
+	<!-- Main Stylesheets -->
+  <link rel="stylesheet" href="css/style.css"/>
 
 </head>
 
@@ -55,84 +69,122 @@
   </nav>
 
   <div class="container-fluid p-0">
+    <hr class="m-0">
 
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="advertisements">
       <div class="w-100">
-        <h1 class="mb-0">Clarence
-          <span class="text-primary">Taylor</span>
-        </h1>
-        <div class="subheading mb-5">3542 Berry Street · Cheyenne Wells, CO 80810 · (317) 585-8468 ·
-          <a href="mailto:name@email.com">name@email.com</a>
+        <h2 class="mb-5">Advertisements</h2>
+        <section class="hero-section overflow-hidden">
+          <div class="hero-slider owl-carousel">
+
+    <?php
+    $db="ds-portal";
+    $host="localhost";
+    $dsn= "mysql:host=$host;dbname=$db";
+    $conn=new mysqli();
+    $conn=new mysqli($host,"root","",$db);
+    if($conn->connect_error){
+      die("Connection failed: " . $conn->connect_error);
+      echo "failed";
+    }
+    $query="SELECT * FROM ads";
+    try{
+
+      $result=$conn->query($query);
+      if ($result->num_rows > 0) {
+    // output data of each row
+        while($row = $result->fetch_assoc()) {
+          ?>
+
+
+  		<<?php  echo	' <div class="hero-item set-bg d-flex align-items-center justify-content-center text-center" data-setbg="data:image;base64,'.$row["image"].' "> '; ?>
+  				<div class="container">
+  					<h2><?php echo $row["title"]; ?></h2>
+  					<p> <?php echo $row["description"]; ?></p>
+  					<a href="#" class="site-btn">Read More  <img src="img/icons/double-arrow.png" alt="#"/></a>
+  				</div>
         </div>
-        <p class="lead mb-5">I am experienced in leveraging agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.</p>
-        <div class="social-icons">
-          <a href="#">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
-          <a href="#">
-            <i class="fab fa-github"></i>
-          </a>
-          <a href="#">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="#">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-        </div>
-      </div>
+
+              <?php
+
+        }
+      }
+      else {
+          echo "0 results";
+      }
+    }
+    catch(Exception $e){
+      echo "an Exception";
+    }
+
+    ?>
+  </div>
+
+  </section>
+
+  </div>
+
+
+
     </section>
 
     <hr class="m-0">
-
     <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="notices">
       <div class="w-100">
-        <h2 class="mb-5">Experience</h2>
+        <h2 class="mb-5">Notices</h2>
 
-        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
-          <div class="resume-content">
-            <h3 class="mb-0">Senior Web Developer</h3>
-            <div class="subheading mb-3">Intelitec Solutions</div>
-            <p>Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.</p>
-          </div>
-          <div class="resume-date text-md-right">
-            <span class="text-primary">March 2013 - Present</span>
-          </div>
-        </div>
+    <?php
+    $db="ds-portal";
+    $host="localhost";
+    $dsn= "mysql:host=$host;dbname=$db";
+    $conn=new mysqli();
+    $conn=new mysqli($host,"root","",$db);
+    if($conn->connect_error){
+      die("Connection failed: " . $conn->connect_error);
+      echo "failed";
+    }
+    $query="SELECT * FROM notices";
+    try{
 
-        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
-          <div class="resume-content">
-            <h3 class="mb-0">Web Developer</h3>
-            <div class="subheading mb-3">Intelitec Solutions</div>
-            <p>Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.</p>
-          </div>
-          <div class="resume-date text-md-right">
-            <span class="text-primary">December 2011 - March 2013</span>
-          </div>
-        </div>
+      $result=$conn->query($query);
+      if ($result->num_rows > 0) {
+    // output data of each row
+        while($row = $result->fetch_assoc()) {
+          ?>
 
-        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
-          <div class="resume-content">
-            <h3 class="mb-0">Junior Web Designer</h3>
-            <div class="subheading mb-3">Shout! Media Productions</div>
-            <p>Podcasting operational change management inside of workflows to establish a framework. Taking seamless key performance indicators offline to maximise the long tail. Keeping your eye on the ball while performing a deep dive on the start-up mentality to derive convergence on cross-platform integration.</p>
-          </div>
-          <div class="resume-date text-md-right">
-            <span class="text-primary">July 2010 - December 2011</span>
-          </div>
-        </div>
 
-        <div class="resume-item d-flex flex-column flex-md-row justify-content-between">
-          <div class="resume-content">
-            <h3 class="mb-0">Web Design Intern</h3>
-            <div class="subheading mb-3">Shout! Media Productions</div>
-            <p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.</p>
-          </div>
-          <div class="resume-date text-md-right">
-            <span class="text-primary">September 2008 - June 2010</span>
-          </div>
-        </div>
+              <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+                <div class="resume-content">
+                  <h3 class="mb-0"> <?php echo $row["title"]; ?> </h3>
+                  <div class="subheading mb-3">Description</div>
+                  <p><?php  echo $row["description"]; ?></p>
+                </div>
+                <div class="resume-date text-md-right">
+                  <span class="text-primary"><?php echo $row["date"] ?></span>
+                </div>
+              </div>
 
-      </div>
+              <?php
+        }
+      }
+      else {
+          echo "0 results";
+      }
+    }
+    catch(Exception $e){
+      echo "an Exception";
+    }
+
+    ?>
+
+  </div>
+
+
+
+
+
+
+
 
     </section>
 
@@ -234,7 +286,7 @@
 
     <hr class="m-0">
 
-  
+
 
 
 
@@ -249,6 +301,13 @@
 
   <!-- Custom scripts for this template -->
   <script src="js/resume.min.js"></script>
+  <script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.slicknav.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/jquery.sticky-sidebar.min.js"></script>
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/main.js"></script>
 
 </body>
 

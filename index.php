@@ -67,7 +67,7 @@
        }
      //  echo $username."  ".$pwd;
      //  echo $conn;
-       $query="SELECT password,usertype FROM users WHERE userid='$username'";
+       $query="SELECT password,usertype,semester FROM users WHERE userid='$username'";
 
 
 
@@ -89,6 +89,16 @@
            else if($res_pwd["usertype"]=="faculty"){
              header("Location:mainpagefaculty");
              exit();
+           }
+           else if($res_pwd["usertype"]=="student"){
+            session_start();
+
+             $_SESSION["semester"]=$res_pwd["semester"];
+            // echo $res_pwd["semester"];
+             header("Location:mainpagestudent");
+
+             exit();
+
            }
 
 
