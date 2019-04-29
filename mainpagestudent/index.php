@@ -74,16 +74,48 @@
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="course">
       <div class="w-100">
         <?php
-        session_start();
-        $sem=$_SESSION["semester"];
+          session_start();
+          $sem=$_SESSION["semester"];
         ?>
         <h2 class="mb-5">Semester <?php echo $sem; ?></h2>
+        <form  action="index.php"  method="POST">
 
-        <button type="button" class="btn btn-primary btn-lg btn-block">Course 1</button>
-        <button type="button" class="btn btn-secondary btn-lg btn-block">Course 2</button>
-        <button type="button" class="btn btn-primary btn-lg btn-block">Course 3</button>
-        <button type="button" class="btn btn-secondary btn-lg btn-block">Course 4</button>
-        <button type="button" class="btn btn-primary btn-lg btn-block">Course 5</button>
+        <button type="submit" class="btn btn-primary btn-lg btn-block" name="c1_button" >Course 1</button>
+        <button type="submit" class="btn btn-secondary btn-lg btn-block" name="c2_button" >Course 2</button>
+        <button type="submit" class="btn btn-primary btn-lg btn-block" name="c3_button" >Course 3</button>
+        <button type="submit" class="btn btn-secondary btn-lg btn-block" name="c4_button" >Course 4</button>
+        <button type="submit" class="btn btn-primary btn-lg btn-block" name="c5_button">Course 5</button>
+
+        <?php
+          if( isset($_POST["c1_button"]) ){
+            session_start();
+            $_SESSION["course"]=($sem-1)*5 + 1;
+            header("Location:coursematerials.php");
+
+          }
+          else if(isset($_POST["c2_button"])){
+            session_start();
+            $_SESSION["course"]=($sem-1)*5 + 2;
+            header("Location:coursematerials.php");
+          }
+          else if(isset($_POST["c3_button"])){
+            session_start();
+            $_SESSION["course"]=($sem-1)*5 + 3;
+            header("Location:coursematerials.php");
+          }
+          else if(isset($_POST["c4_button"])){
+            session_start();
+            $_SESSION["course"]=($sem-1)*5 + 4;
+            header("Location:coursematerials.php");
+          }
+          else if(isset($_POST["c5_button"])){
+            session_start();
+            $_SESSION["course"]=($sem-1)*5 + 5;
+            header("Location:coursematerials.php");
+          }
+         ?>
+
+      </form>
 
 
       </div>
