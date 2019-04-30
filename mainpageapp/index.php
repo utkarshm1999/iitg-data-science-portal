@@ -174,7 +174,7 @@
                     echo "<table>";
                     echo "<tr>";
                     echo "<th>Apllication ID</th>";
-                    echo "     "."<th>Applicant Name</th>";
+                    echo "<th>Applicant Name</th>";
                     echo "</tr>";
 
                     while(($id = mysqli_fetch_array($res)))
@@ -272,6 +272,135 @@
     <hr class="m-0">
 
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="form">
+      <?php
+      error_reporting(E_ALL ^ E_NOTICE );
+      error_reporting(E_ERROR | E_PARSE);
+      //session based login system
+      session_start();
+
+      $target_dir = "/uploads";
+      $target_file = $target_dir . basename($_FILES["upload_file"]["name"]);
+      $uploadOk = 1;
+      $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+      if(isset($_POST["submit"]))
+      {
+        if($_SERVER["REQUEST_METHOD"]=="POST"){
+          $firstname = $_POST["firstName"];
+          $lastname=$_POST["lastName"];
+          $dob=$_POST["dob"];
+          $gender=$_POST["gender"];
+          $email=$_POST["email"];
+          $address=$_POST["address"];
+          $roll=$_POST["roll"];
+          $score=$_POST["score"];
+
+          // $target_dir = "uploads/";
+          // $target_file = $target_dir . basename($_FILES["file_to_upload"]["name"]);
+          //
+          // if(isset($_FILES['upload_file']))
+          // {
+          //     $errors     = array();
+          //     $maxsize    = 2097152;
+          //     $acceptable = array(
+          //         'image/jpeg',
+          //         'image/jpg',
+          //         'image/png'
+          //     );
+          //
+          //     if(($_FILES['upload_file']['size'] >= $maxsize) || ($_FILES["upload_file"]["size"] == 0))
+          //     {
+          //         $errors[] = 'File too large. File must be less than 2 megabytes.';
+          //     }
+          //
+          //     if((!in_array($_FILES['upload_file']['type'], $acceptable)) || (empty($_FILES["upload_file"]["type"])))
+          //     {
+          //         $errors[] = 'Invalid file type. Only JPG, JPEG and PNG types are accepted.';
+          //     }
+          //
+          //     if(count($errors) == 0)
+          //     {
+          //       $file = addslashes($_FILES['upload_file']['tmp_name']);
+          //       $file = file_get_contents($file);
+          //       $file = base64_encode($file);
+          //     }
+          //     else
+          //     {
+          //         foreach($errors as $error)
+          //         {
+          //             echo '<script>alert("'.$error.'");</script>';
+          //         }
+          //         die(); //Ensure no more processing is done
+          //     }
+          // }
+
+          // Check if image file is a actual image or fake image
+
+              $check = getimagesize($_FILES["upload_file"]["tmp_name"]);
+              if($check !== false) {
+                  echo "File is an image - " . $check["mime"] . ".";
+                  $uploadOk = 1;
+              } else {
+                  echo "File is not an image.";
+                  $uploadOk = 0;
+              }
+          // Check if file already exists
+          if (file_exists($target_file)) {
+              echo "Sorry, file already exists.";
+              $uploadOk = 0;
+          }
+          // Check file size
+          if ($_FILES["upload_file"]["size"] > 2097152) {
+              echo "Sorry, your file is too large.";
+              $uploadOk = 0;
+          }
+          // Allow certain file formats
+          if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+              echo "Sorry, only JPG, JPEG & PNG files are allowed.";
+              $uploadOk = 0;
+          }
+          // Check if $uploadOk is set to 0 by an error
+          if ($uploadOk == 0) {
+              echo "Sorry, your file was not uploaded.";
+              die();
+          // if everything is ok, try to upload file
+          } else {
+            $file = addslashes($_FILES['upload_file']['tmp_name']);
+            $file = file_get_contents($file);
+            $file = base64_encode($file);
+          }
+
+
+
+          // if(getimagesize($_FILES['upload_file']['tmp_name'])==FALSE)
+          // {
+          //   echo "Please select an image.";
+          //   return;
+          // }
+          // else {
+          //
+          // }
+        //  $file=$POST["upload_file"];
+          $host="localhost";
+          $db="ds-portal";
+          $dsn= "mysql:host=$host;dbname=$db";
+          $conn=new mysqli();
+          $conn=new mysqli($host,"root","",$db);
+          if($conn->connect_error){
+            die("Connection failed: " . $conn->connect_error);
+            echo "failed";
+          }
+        //  echo $username."  ".$pwd;
+        //  echo $conn;
+          $query="INSERT INTO applications (apply_id, first_name, last_name, dob, gender, email, address, gate_roll_no, gate_score,file,Selected,roll_number) VALUES (DEFAULT,'$firstname','$lastname','$dob','$gender','$email','$address','$roll','$score','$file','No',0)";
+          if ($conn->query($query) == TRUE) {
+              $msg = "Your application number is: " . mysqli_insert_id($conn);
+              echo "<script type='text/javascript'>alert('$msg');</script>";
+          } else {
+            echo "<script type='text/javascript'>alert('Failed!!!');</script>";    }
+          $conn->close();
+        }
+      }
+      ?>
       <div class="container">
     <div class="py-5 text-center">
       <img class="d-block mx-auto mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">

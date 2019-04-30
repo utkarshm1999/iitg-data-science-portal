@@ -117,7 +117,7 @@ if(isset($_POST["submit"]))
     }
   //  echo $username."  ".$pwd;
   //  echo $conn;
-    $query="INSERT INTO applications (apply_id, first_name, last_name, dob, gender, email, address, gate_roll_no, gate_score,file) VALUES (DEFAULT,'$firstname','$lastname','$dob','$gender','$email','$address','$roll','$score','$file')";
+    $query="INSERT INTO applications (apply_id, first_name, last_name, dob, gender, email, address, gate_roll_no, gate_score,file,Selected,roll_number) VALUES (DEFAULT,'$firstname','$lastname','$dob','$gender','$email','$address','$roll','$score','$file','No',0)";
     if ($conn->query($query) == TRUE) {
         $msg = "Your application number is: " . mysqli_insert_id($conn);
         echo "<script type='text/javascript'>alert('$msg');</script>";
