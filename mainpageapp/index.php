@@ -55,13 +55,18 @@
           <a class="nav-link js-scroll-trigger" href="#advertisements">Advertisements</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="#notices">View Notices</a>
+          <a class="nav-link js-scroll-trigger" href="#notices">View Selections</a>
+        </li>
+
+
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#form">Apply</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="#apply">Apply</a>
+          <a class="nav-link js-scroll-trigger" href="#form">Change Password</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="#results">View Results</a>
+          <a class="nav-link js-scroll-trigger" href="#form">Results</a>
         </li>
 
       </ul>
@@ -130,56 +135,100 @@
 
     <hr class="m-0">
     <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="notices">
-      <div class="w-100">
-        <h2 class="mb-5">Notices</h2>
-
-    <?php
-    $db="ds-portal";
-    $host="localhost";
-    $dsn= "mysql:host=$host;dbname=$db";
-    $conn=new mysqli();
-    $conn=new mysqli($host,"root","",$db);
-    if($conn->connect_error){
-      die("Connection failed: " . $conn->connect_error);
-      echo "failed";
-    }
-    $query="SELECT * FROM notices";
-    try{
-
-      $result=$conn->query($query);
-      if ($result->num_rows > 0) {
-    // output data of each row
-        while($row = $result->fetch_assoc()) {
-          ?>
 
 
-              <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
-                <div class="resume-content">
-                  <h3 class="mb-0"> <?php echo $row["title"]; ?> </h3>
-                  <div class="subheading mb-3">Description</div>
-                  <p><?php  echo $row["description"]; ?></p>
-                </div>
-                <div class="resume-date text-md-right">
-                  <span class="text-primary"><?php echo $row["date"] ?></span>
-                </div>
-              </div>
+        <?php
 
-              <?php
-        }
-      }
-      else {
-          echo "0 results";
-      }
-    }
-    catch(Exception $e){
-      echo "an Exception";
-    }
+        error_reporting(E_ALL ^ E_NOTICE );
+        error_reporting(E_ERROR | E_PARSE);
+        //session based login system
+        session_start();
 
-    ?>
+            // $firstname = $_POST["firstName"];
+            // $lastname=$_POST["lastName"];
+            // $dob=$_POST["dob"];
+            // $gender=$_POST["gender"];
+            // $email=$_POST["email"];
+            // $address=$_POST["address"];
+            // $roll=$_POST["roll"];
+            // $score=$_POST["score"];
+            $count=1;
+            $host="localhost";
+            $db="ds-portal";
+            $dsn= "mysql:host=$host;dbname=$db";
+            $conn=new mysqli();
+            $conn=new mysqli($host,"root","",$db);
+            if($conn->connect_error){
+              die("Connection failed: " . $conn->connect_error);
+              echo "failed";
+            }
+          //  echo $username."  ".$pwd;
+          //  echo $conn;
+            $query="SELECT * FROM applications ORDER by gate_score DESC";
+            try{
 
-  </div>
+                if($res = mysqli_query($conn, $query))
+                {
+                  if(mysqli_num_rows($res) > 0)
+                  {
+                    echo "<table>";
+                    echo "<tr>";
+                    echo "<th>Apllication ID</th>";
+                    echo "     "."<th>Applicant Name</th>";
+                    echo "</tr>";
 
+                    while(($id = mysqli_fetch_array($res)))
+                    {
+                      echo "<tr>";
+                      echo "<td>" . $id[apply_id] . "</td>";
+                      echo "<td>"."     ". $id[first_name] . " " .  $id[last_name] . "</td>";
 
+                  //    echo "<td>" . "<img src='",$id['file'],"' width='175' height='200' />"  /*img src= "data:'image';base64,".base64_encode($id[file]);*/ ."</td>";
+                      // echo '<img src="data:image/jpeg;base64,'.$id[file].'"/>';
+        //echo '<img src="data:image/jpeg;base64,'.base64_encode( $id[file] ).'"/>';
+
+        //$imagedata=$id[file];
+                      echo "</tr>";
+                      $count=$count+1;
+                    }
+                    echo "</table>";
+                    mysqli_free_result($res);
+          //          header("content-type: image/jpeg");
+            //        echo $imagedata;
+                  }
+                  else
+                  {
+                    echo "No matching records are found.";
+                  }
+                }
+                else
+                {
+                  echo "ERROR: Could not able to execute $query. " . mysqli_error($conn);
+                }
+                // $retval = mysqli_query($conn, $query);
+                // if(! $retval )
+                // {
+                //   die('Could not get data: ' . mysqli_error());
+                // }
+                //
+                // while($row = mysqli_fetch_array($retval, MYSQL_ASSOC) && count <=2)
+                // {
+                //   echo "<tr>";
+                //        echo "<td>" . $id[apply_id] . "</td>";
+                //        echo "<td>" . $id[first_name] . "</td>";
+                //        echo "<td>" . $id[last_name] . "</td>";
+                //        echo "<td>" . $id[email] . "</td>";950
+                //        echo "<td>" . $id[gate_roll_no] . "</td>";
+                //        echo "<td>" . $id[gate_score] . "</td>";
+                //   echo "</tr>";
+                //  echo "<br>";
+            }
+            catch(Exception $e)
+            {
+              echo "error is".$e;
+            }
+            $conn->close();
+        ?>
 
 
 
@@ -222,66 +271,119 @@
 
     <hr class="m-0">
 
-    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="results">
-      <div class="w-100">
-        <h2 class="mb-5">Skills</h2>
+    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="form">
+      <div class="container">
+    <div class="py-5 text-center">
+      <img class="d-block mx-auto mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+      <h2>Application form for M.Tech Data Science Course</h2>
+      <p class="lead">Please fill these details correctly. Any wrong information may lead to disqualification. Applicants should have graduation degree either from
+  the CSE, ECE, EE or Math department, having a valid GATE score.</p>
+    </div>
 
-        <div class="subheading mb-3">Programming Languages &amp; Tools</div>
-        <ul class="list-inline dev-icons">
-          <li class="list-inline-item">
-            <i class="fab fa-html5"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-css3-alt"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-js-square"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-angular"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-react"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-node-js"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-sass"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-less"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-wordpress"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-gulp"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-grunt"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-npm"></i>
-          </li>
-        </ul>
+      <div class="col-md-8 order-md-1">
+        <h4 class="mb-3">Personal Details</h4>
+        <form class="needs-validation" action="application_form.php" enctype="multipart/form-data" method="post">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="firstName">First name</label>
+              <input type="text" class="form-control" name="firstName" placeholder="" required>
+              <div class="invalid-feedback">
+                Valid first name is required.
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="lastName">Last name</label>
+              <input type="text" class="form-control" name="lastName" placeholder="" required>
+              <div class="invalid-feedback">
+                Valid last name is required.
+              </div>
+            </div>
+          </div>
 
-        <div class="subheading mb-3">Workflow</div>
-        <ul class="fa-ul mb-0">
-          <li>
-            <i class="fa-li fa fa-check"></i>
-            Mobile-First, Responsive Design</li>
-          <li>
-            <i class="fa-li fa fa-check"></i>
-            Cross Browser Testing &amp; Debugging</li>
-          <li>
-            <i class="fa-li fa fa-check"></i>
-            Cross Functional Teams</li>
-          <li>
-            <i class="fa-li fa fa-check"></i>
-            Agile Development &amp; Scrum</li>
-        </ul>
-      </div>
+          <div class="mb-3">
+            <label for="dob">Date of birth</label>
+              <input type="date" class="form-control" max="2019-04-27"  name="dob" placeholder="Date of birth" required>
+              <div class="invalid-feedback" style="width: 100%;">
+                Date of birth is required.
+              </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="gender">Gender</label>
+            <select class="form-control" name="gender">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" name="email" placeholder="you@example.com" required>
+            <div class="invalid-feedback">
+              Please enter a valid email address.
+            </div>
+          </div>
+
+
+
+          <div class="mb-3">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" name="address" placeholder="1234 Main St" required>
+            <div class="invalid-feedback">
+              Please enter your residential address.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="roll">GATE Roll Number</label>
+            <input type="number" class="form-control" name="roll" placeholder="" required>
+            <div class="invalid-feedback">
+              Please enter your valid gate roll number.
+            </div>
+          </div>
+
+          <div class="mb-3">
+          <label for="score">GATE score</label>
+            <input type="number" class="form-control" name="score" placeholder="" required>
+            <div class="invalid-feedback">
+              Please enter your correct gate score.
+            </div>
+          </div>
+
+          <div class="mb-3">
+          <label for="upload_file"></label>
+            <input type="file" class="form-control" name="upload_file" placeholder="" required>
+            <div class="invalid-feedback">
+              Please upload scanned image of your GATE report card.
+            </div>
+          </div>
+          <!-- $target = "pics/";
+          $target = $target . basename( $_FILES['Filename']['name']);
+          //This gets all the other information from the form
+          $Filename=basename( $_FILES['Filename']['name']);
+          $Description=$_POST['Description'];
+          //Writes the Filename to the server
+          if(move_uploaded_file($_FILES['Filename']['tmp_name'], $target)) {
+              //Tells you if its all ok
+              echo "The file ". basename( $_FILES['Filename']['name']). " has been uploaded, and your information has been added to the directory";
+              // Connects to your Database
+              mysql_connect("localhost", "root", "") or die(mysql_error()) ;
+              mysql_select_db("altabotanikk") or die(mysql_error()) ;
+              //Writes the information to the database
+              mysql_query("INSERT INTO picture (Filename,Description)
+              VALUES ('$Filename', '$Description')") ;
+          } else {
+              //Gives and error if its not
+              echo "Sorry, there was a problem uploading your file.";
+          } -->
+
+
+
+          <button name= "submit" class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+
+
+  </div>
     </section>
 
     <hr class="m-0">

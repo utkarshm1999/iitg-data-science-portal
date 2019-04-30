@@ -1,9 +1,3 @@
-
-
-
-
-
-
 <?php
 error_reporting(E_ALL ^ E_NOTICE );
 error_reporting(E_ERROR | E_PARSE);
@@ -32,9 +26,9 @@ if(isset($_POST["submit"]))
 
     if(isset($name)){
         if(!empty($name)){
-          echo $name;
+
           $query="INSERT INTO assignments (id,Attachment) VALUES (DEFAULT,'$data');";
-          echo $query;
+
             try
             {
             //  echo $query;
@@ -182,109 +176,220 @@ if(isset($_POST["download"]))
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="#advertisements">Advertisements</a>
+          <a class="nav-link js-scroll-trigger" href="#advertisements">Send Advertisements</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="#notices">View Notices</a>
+          <a class="nav-link js-scroll-trigger" href="#notices">Send Notices</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="#apply">Apply</a>
+          <a class="nav-link js-scroll-trigger" href="#apply">Upload Course Material</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="#results">View Results</a>
+          <a class="nav-link js-scroll-trigger" href="#results">Application Form</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#results">Change Password</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#results">Sign Out</a>
+        </li>
+
 
       </ul>
     </div>
   </nav>
 
-  <div class="container-fluid p-0">
 
-    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="advertisements">
-      <div class="w-100">
-        <h1 class="mb-0">Clarence
-          <span class="text-primary">Taylor</span>
-        </h1>
-        <div class="subheading mb-5">3542 Berry Street · Cheyenne Wells, CO 80810 · (317) 585-8468 ·
-          <a href="mailto:name@email.com">name@email.com</a>
-        </div>
-        <p class="lead mb-5">I am experienced in leveraging agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.</p>
-        <div class="social-icons">
-          <a href="#">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
-          <a href="#">
-            <i class="fab fa-github"></i>
-          </a>
-          <a href="#">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="#">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-        </div>
-      </div>
-    </section>
+    <div class="container-fluid p-0">
+      <hr class="m-0">
 
-    <hr class="m-0">
+      <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="advertisements">
+        <br><br><br>
+        <form class="form-signin" action="index.php"  method="POST" enctype="multipart/form-data">
 
-    <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="notices">
-      <div class="w-100">
-        <h2 class="mb-5">Experience</h2>
+          <br><br>
+          <br><br>
+        <h1 class="h3 mb-3 font-weight-normal">Post a new Advertisement</h1>
 
-        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
-          <div class="resume-content">
-            <h3 class="mb-0">Senior Web Developer</h3>
-            <div class="subheading mb-3">Intelitec Solutions</div>
-            <p>Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.</p>
-          </div>
-          <div class="resume-date text-md-right">
-            <span class="text-primary">March 2013 - Present</span>
-          </div>
-        </div>
+        <br><br>
+        <br><br>
+        <label for="inputEmail" class="sr-only">Title</label>
+        <input  id="inputEmail"  name="inputTitleAd" class="form-control" placeholder="Title" required autofocus>
+        <br><br>
+        <br><br>
 
-        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
-          <div class="resume-content">
-            <h3 class="mb-0">Web Developer</h3>
-            <div class="subheading mb-3">Intelitec Solutions</div>
-            <p>Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.</p>
-          </div>
-          <div class="resume-date text-md-right">
-            <span class="text-primary">December 2011 - March 2013</span>
-          </div>
-        </div>
+        <div class="mb-3">
+          <label for="upload_img_ad">Upload an image for the Advertisement</label>
+            <input type="file" class="form-control" name="upload_img_ad" placeholder="" required>
+              <div class="invalid-feedback">
+                  Please upload an image of the Advertisement
+                </div>
+            </div>
+        <br><br>
+        <br><br>
 
-        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
-          <div class="resume-content">
-            <h3 class="mb-0">Junior Web Designer</h3>
-            <div class="subheading mb-3">Shout! Media Productions</div>
-            <p>Podcasting operational change management inside of workflows to establish a framework. Taking seamless key performance indicators offline to maximise the long tail. Keeping your eye on the ball while performing a deep dive on the start-up mentality to derive convergence on cross-platform integration.</p>
-          </div>
-          <div class="resume-date text-md-right">
-            <span class="text-primary">July 2010 - December 2011</span>
-          </div>
-        </div>
+        <textarea  cols="60" rows="10" name="inputDescriptionAd" placeholder="Description"></textarea>
+        <br><br>
 
-        <div class="resume-item d-flex flex-column flex-md-row justify-content-between">
-          <div class="resume-content">
-            <h3 class="mb-0">Web Design Intern</h3>
-            <div class="subheading mb-3">Shout! Media Productions</div>
-            <p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI.</p>
-          </div>
-          <div class="resume-date text-md-right">
-            <span class="text-primary">September 2008 - June 2010</span>
-          </div>
-        </div>
+        <button class="btn btn-lg btn-primary btn-block" name="btn_send_ad" type="submit">Post Advertisement</button>
 
-      </div>
+        <?php
+          error_reporting(E_ALL ^ E_NOTICE );
+          error_reporting(E_ERROR | E_PARSE);
+          //session based login system
 
-    </section>
+          $target_dir = "/uploads";
+          $target_file = $target_dir . basename($_FILES["upload_img_ad"]["name"]);
+          $uploadOk = 1;
+          $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+          if(isset($_POST["btn_send_ad"]))
+          {
+            if($_SERVER["REQUEST_METHOD"]=="POST"){
+              $title_ad=$_POST["inputTitleAd"];
+              $description_ad=$_POST["inputDescriptionAd"];
+
+
+
+                  $check = getimagesize($_FILES["upload_img_ad"]["tmp_name"]);
+                  if($check !== false) {
+                      echo "File is an image - " . $check["mime"] . ".";
+                      $uploadOk = 1;
+                  } else {
+                      echo "File is not an image.";
+                      $uploadOk = 0;
+                  }
+              // Check if file already exists
+              if (file_exists($target_file)) {
+                  echo "Sorry, file already exists.";
+                  $uploadOk = 0;
+              }
+              // Check file size
+              if ($_FILES["upload_img_ad"]["size"] > 2097152) {
+                  echo "Sorry, your file is too large.";
+                  $uploadOk = 0;
+              }
+              // Allow certain file formats
+              if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+                  echo "Sorry, only JPG, JPEG & PNG files are allowed.";
+                  $uploadOk = 0;
+              }
+              // Check if $uploadOk is set to 0 by an error
+              if ($uploadOk == 0) {
+                  echo "Sorry, your file was not uploaded.";
+                  die();
+              // if everything is ok, try to upload file
+              } else {
+                $file = addslashes($_FILES['upload_img_ad']['tmp_name']);
+                $file = file_get_contents($file);
+                $file = base64_encode($file);
+              }
+
+
+
+              // if(getimagesize($_FILES['upload_file']['tmp_name'])==FALSE)
+              // {
+              //   echo "Please select an image.";
+              //   return;
+              // }
+              // else {
+              //
+              // }
+            //  $file=$POST["upload_file"];
+              $host="localhost";
+              $db="ds-portal";
+              $dsn= "mysql:host=$host;dbname=$db";
+              $conn=new mysqli();
+              $conn=new mysqli($host,"root","",$db);
+              if($conn->connect_error){
+                die("Connection failed: " . $conn->connect_error);
+                echo "failed";
+              }
+            //  echo $username."  ".$pwd;
+            //  echo $conn;
+              $query="INSERT INTO ads (title,description,image) VALUES ('$title_ad','$description_ad','$file')";
+              if ($conn->query($query) === TRUE) {
+                  $msg = "Posted the Advertisement successfully!";
+                  echo "<script type='text/javascript'>alert('$msg');</script>";
+              } else {
+                echo "<script type='text/javascript'>alert('Failed!!!');</script>";    }
+              $conn->close();
+            }
+          }
+      ?>
+      </form>
+      </section>
+
+
+      <hr class="m-0">
+
+      <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="notices">
+        <br><br><br>
+        <form class="form-signin" action="index.php"  method="POST">
+
+          <br><br>
+          <br><br>
+        <h1 class="h3 mb-3 font-weight-normal">Send a new notice</h1>
+
+        <br><br>
+        <br><br>
+        <label for="inputEmail" class="sr-only">Title</label>
+        <input  id="inputEmail"  name="inputTitle" class="form-control" placeholder="Title" required autofocus>
+
+        <br><br>
+        <br><br>
+
+        <textarea  cols="60" rows="10" name="inputDescription" placeholder="Description"></textarea>
+        <br><br>
+
+        <button class="btn btn-lg btn-primary btn-block" name="btn_send" type="submit">Send Notice</button>
+
+        <?php
+
+            if(isset($_POST["btn_send"])){
+              if($_SERVER["REQUEST_METHOD"]=="POST"){
+
+                $title=$_POST["inputTitle"];
+                $description=$_POST["inputDescription"];
+                if($title!="" && $description!="" ){
+                  $db="ds-portal";
+                  $host="localhost";
+                  $dsn= "mysql:host=$host;dbname=$db";
+                  $conn=new mysqli();
+                  $conn=new mysqli($host,"root","",$db);
+                  if($conn->connect_error){
+                    die("Connection failed: " . $conn->connect_error);
+                    echo "failed";
+                  }
+
+                  $query="INSERT INTO notices (title, description) VALUES ('$title','$description') ";
+
+                  try{
+
+                    $conn->query($query);
+
+
+                }
+                catch(Exception $e){
+                  echo "error is".$e;
+                }
+              }
+              else{
+                echo "Enter non empty title and description";
+              }
+            }
+          }
+         ?>
+      </form>
+
+
+
+      </section>
 
     <hr class="m-0">
     <form class="needs-validation" action="index.php" enctype="multipart/form-data" method="post">
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="apply">
       <div class="w-100">
-        <h2 class="mb-5">Education</h2>
+        <h2 class="mb-5">Course management</h2>
         <div class="mb-3">
         <label for="file"></label>
           <input type="file" class="form-control" name="myfile" placeholder="" required>

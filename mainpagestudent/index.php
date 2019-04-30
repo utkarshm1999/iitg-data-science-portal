@@ -63,6 +63,9 @@
         <li class="nav-item">
           <a class="nav-link js-scroll-trigger" href="#changepwd">Change Password</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#changepwd">Sign Out</a>
+        </li>
 
       </ul>
     </div>

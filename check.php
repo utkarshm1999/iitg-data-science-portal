@@ -1,6 +1,6 @@
 <?php
-require '/usr/share/php/libphp-phpmailer/class.phpmailer.php';
-require '/usr/share/php/libphp-phpmailer/class.smtp.php';
+require '../libphp-phpmailerclass.phpmailer.php';
+require '../libphp-phpmailer/class.smtp.php';
 
 $mail = new PHPMailer;
 
