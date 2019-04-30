@@ -75,25 +75,37 @@
 
          $result=$conn->query($query);
          $res_pwd=mysqli_fetch_assoc($result);
+        // echo "student".md5("student");
+
+         $pwd=md5($pwd);
+         //echo "  yea  $hashed_input";
        //  echo "res pwd is ".$res_pwd["password"]." and pwd is ".$pwd;
          if($res_pwd["password"]==$pwd){
 
            if($res_pwd["usertype"]=="applicant"){
              header("Location:mainpageapp");
+             $_SESSION["userid"]=$res_pwd["userid"];
+
              exit();
            }
            else if($res_pwd["usertype"]=="staff"){
              header("Location:mainpagestaff");
+             $_SESSION["userid"]=$res_pwd["userid"];
+
              exit();
            }
            else if($res_pwd["usertype"]=="faculty"){
              header("Location:mainpagefaculty");
+             $_SESSION["userid"]=$res_pwd["userid"];
+
              exit();
            }
            else if($res_pwd["usertype"]=="student"){
             session_start();
 
              $_SESSION["semester"]=$res_pwd["semester"];
+             $_SESSION["userid"]=$res_pwd["userid"];
+
             // echo $res_pwd["semester"];
              header("Location:mainpagestudent");
 

@@ -61,7 +61,7 @@
           <a class="nav-link js-scroll-trigger" href="#apply">Download Gradecard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="#results">View Results</a>
+          <a class="nav-link js-scroll-trigger" href="#changepwd">Change Password</a>
         </li>
 
       </ul>
@@ -218,68 +218,56 @@
 
     <hr class="m-0">
 
-    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="results">
-      <div class="w-100">
-        <h2 class="mb-5">Skills</h2>
+    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="changepwd">
+      <form class="form-signin" action="index.php"  method="POST">
+    <img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <label for="inputEmail" class="sr-only">Old Password</label>
+    <br><br>
+    <input  id="inputoldPassword"  type="password" name="inputEmail" class="form-control" placeholder="Old Password" required autofocus>
+    <br><br>
 
-        <div class="subheading mb-3">Programming Languages &amp; Tools</div>
-        <ul class="list-inline dev-icons">
-          <li class="list-inline-item">
-            <i class="fab fa-html5"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-css3-alt"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-js-square"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-angular"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-react"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-node-js"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-sass"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-less"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-wordpress"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-gulp"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-grunt"></i>
-          </li>
-          <li class="list-inline-item">
-            <i class="fab fa-npm"></i>
-          </li>
-        </ul>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputnewPassword" name="inputPassword" class="form-control" placeholder="New Password" required>
+    <br><br>
 
-        <div class="subheading mb-3">Workflow</div>
-        <ul class="fa-ul mb-0">
-          <li>
-            <i class="fa-li fa fa-check"></i>
-            Mobile-First, Responsive Design</li>
-          <li>
-            <i class="fa-li fa fa-check"></i>
-            Cross Browser Testing &amp; Debugging</li>
-          <li>
-            <i class="fa-li fa fa-check"></i>
-            Cross Functional Teams</li>
-          <li>
-            <i class="fa-li fa fa-check"></i>
-            Agile Development &amp; Scrum</li>
-        </ul>
-      </div>
-    </section>
+    <label for="inputrenewPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Re enter new Password" required>
+    <br><br>
 
+    <button class="btn btn-lg btn-primary btn-block" id="changepwd_btn" type="submit">Change Password</button>
+
+
+    <?php
+        if(isset($_POST["changepwd_btn"])){
+          $db="ds-portal";
+          $host="localhost";
+          $dsn= "mysql:host=$host;dbname=$db";
+          $conn=new mysqli();
+          $conn=new mysqli($host,"root","",$db);
+
+          if($conn->connect_error){
+            die("Connection failed: " . $conn->connect_error);
+            echo "failed";
+          }
+          $oldpwd=$_POST["inputoldPassword"];
+          $newpwd=$_POST["inputnewPassword"];
+          $renewpwd=$_POST["inputrenewPassword"];
+          $username = $_SESSION["userid"];
+
+          if($newpwd==$renewpwd){
+            
+
+          }
+          else{
+              echo  <label > "New passwords do not match" </label>;
+          }
+
+        }
+
+     ?>
+   </form>
+     </section>
     <hr class="m-0">
 
 
