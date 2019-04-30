@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(!$_SESSION["logon"]){
+ header("Location:../index.php");
+ die();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -64,7 +71,7 @@
           <a class="nav-link js-scroll-trigger" href="#changepwd">Change Password</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="#changepwd">Sign Out</a>
+          <a class="nav-link js-scroll-trigger" href="signout.php">Sign Out</a>
         </li>
 
       </ul>
@@ -225,23 +232,24 @@
       <form class="form-signin" action="index.php"  method="POST">
     <img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail" class="sr-only">Old Password</label>
+    <label for="inputoldPassword" class="sr-only">Old Password</label>
     <br><br>
-    <input  id="inputoldPassword"  type="password" name="inputEmail" class="form-control" placeholder="Old Password" required autofocus>
+    <input  id="inputoldPassword"  type="password" name="inputoldPassword" class="form-control" placeholder="Old Password" required>
     <br><br>
 
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputnewPassword" name="inputPassword" class="form-control" placeholder="New Password" required>
+    <label for="inputnewPassword" class="sr-only">Password</label>
+    <input type="password" id="inputnewPassword" name="inputnewPassword" class="form-control" placeholder="New Password" required>
     <br><br>
 
     <label for="inputrenewPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Re enter new Password" required>
+    <input type="password" id="inputrenewPassword" name="inputrenewPassword" class="form-control" placeholder="Re enter new Password" required>
     <br><br>
 
-    <button class="btn btn-lg btn-primary btn-block" id="changepwd_btn" type="submit">Change Password</button>
+    <button class="btn btn-lg btn-primary btn-block" name="changepwd_btn" type="submit">Change Password</button>
 
 
     <?php
+
         if(isset($_POST["changepwd_btn"])){
           $db="ds-portal";
           $host="localhost";
@@ -249,21 +257,43 @@
           $conn=new mysqli();
           $conn=new mysqli($host,"root","",$db);
 
+
           if($conn->connect_error){
             die("Connection failed: " . $conn->connect_error);
             echo "failed";
           }
-          $oldpwd=$_POST["inputoldPassword"];
+          $oldpwd=md5($_POST["inputoldPassword"] );
           $newpwd=$_POST["inputnewPassword"];
           $renewpwd=$_POST["inputrenewPassword"];
           $username = $_SESSION["userid"];
 
           if($newpwd==$renewpwd){
+            $query="SELECT password FROM users WHERE userid='$username'";
+            try{
 
+              $result=$conn->query($query);
+              $res_pwd=mysqli_fetch_assoc($result);
+            //  echo "old pwd ".$oldpwd." db pwd ".$res_pwd["password"];
+              if($oldpwd==$res_pwd["password"]){
+                $hashed=md5($newpwd);
+                $query="UPDATE users SET password='$hashed' WHERE userid='$username'";
+                $result=$conn->query($query);
+                echo "<script type='text/javascript'>alert('Password Successfully Updated');</script>";
+
+
+              }
+              else{
+                echo  "<label >"."Incorrect Old Password"."</label>";
+
+              }
+            }
+            Catch( Exception $e){
+
+            }
 
           }
           else{
-            //  echo  "<label > "New passwords do not match" </label>";
+              echo  "<label >"."New passwords do not match"."</label>";
           }
 
         }
