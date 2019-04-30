@@ -256,11 +256,11 @@
           $username = $_SESSION["userid"];
 
           if($newpwd==$renewpwd){
-            
+
 
           }
           else{
-              echo  <label > "New passwords do not match" </label>;
+            //  echo  "<label > "New passwords do not match" </label>";
           }
 
         }
