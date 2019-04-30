@@ -1,3 +1,147 @@
+
+
+
+
+
+
+<?php
+error_reporting(E_ALL ^ E_NOTICE );
+error_reporting(E_ERROR | E_PARSE);
+//session based login system
+session_start();
+if(isset($_POST["submit"]))
+{
+  if($_SERVER["REQUEST_METHOD"]=="POST"){
+
+    $name = $_FILES['myfile']['name'];
+    $file = addslashes($_FILES['myfile']['tmp_name']);
+    $file = file_get_contents($file);
+    $file = base64_encode($file);
+    $data = $file;
+    $tableName = "assignments";
+
+    $host="localhost";
+    $db="ds-portal";
+    $dsn= "mysql:host=$host;dbname=$db";
+    $conn=new mysqli();
+    $conn=new mysqli($host,"root","",$db);
+    if($conn->connect_error){
+      die("Connection failed: " . $conn->connect_error);
+      echo "failed";
+    }
+
+    if(isset($name)){
+        if(!empty($name)){
+          echo $name;
+          $query="INSERT INTO assignments (id,Attachment) VALUES (DEFAULT,'$data');";
+          echo $query;
+            try
+            {
+            //  echo $query;
+            if ($conn->query($query) == TRUE) {
+                $msg = "Successfully uploaded";
+                echo "<script type='text/javascript'>alert('$msg');</script>";
+            } else {
+              echo "<script type='text/javascript'>alert('Failed!!!');</script>";    }
+            }
+            catch(Exception $e)
+            {
+              echo "error is".$e;
+            }
+          }
+      }
+     else {
+        echo 'You should select a file to upload !!';
+    }
+
+    $conn->close();
+    }
+
+}
+
+if(isset($_POST["download"]))
+{
+  if($_SERVER["REQUEST_METHOD"]=="POST"){
+
+    $host="localhost";
+    $db="ds-portal";
+    $dsn= "mysql:host=$host;dbname=$db";
+    $conn=new mysqli();
+    $conn=new mysqli($host,"root","",$db);
+    if($conn->connect_error){
+      die("Connection failed: " . $conn->connect_error);
+      echo "failed";
+    }
+  //  echo $username."  ".$pwd;
+  //  echo $conn;
+    $query="SELECT * FROM assignments ORDER by id DESC";
+    try{
+
+        if($res = mysqli_query($conn, $query))
+        {
+          $files = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        }
+        else
+        {
+          echo "ERROR: Could not able to execute $query. " . mysqli_error($conn);
+        }
+
+        if (isset($_GET['file_id'])) {
+    $id = $_GET['file_id'];
+
+    // fetch file to download from database
+    $sql = "SELECT * FROM assignments WHERE id=$id";
+    $result = mysqli_query($conn, $sql);
+
+    $file = mysqli_fetch_assoc($result);
+    $filepath = 'uploads/' . $file['name'];
+
+
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename=' . basename($filepath));
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize('uploads/' . $file['name']));
+        readfile('uploads/' . $file['name']);
+
+        exit;
+
+
+}
+        // $retval = mysqli_query($conn, $query);
+        // if(! $retval )
+        // {
+        //   die('Could not get data: ' . mysqli_error());
+        // }
+        //
+        // while($row = mysqli_fetch_array($retval, MYSQL_ASSOC) && count <=2)
+        // {
+        //   echo "<tr>";
+        //        echo "<td>" . $id[apply_id] . "</td>";
+        //        echo "<td>" . $id[first_name] . "</td>";
+        //        echo "<td>" . $id[last_name] . "</td>";
+        //        echo "<td>" . $id[email] . "</td>";950
+        //        echo "<td>" . $id[gate_roll_no] . "</td>";
+        //        echo "<td>" . $id[gate_score] . "</td>";
+        //   echo "</tr>";
+        //  echo "<br>";
+    }
+    catch(Exception $e)
+    {
+      echo "error is".$e;
+    }
+    $conn->close();
+    }
+
+}
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -137,12 +281,19 @@
     </section>
 
     <hr class="m-0">
-
+    <form class="needs-validation" action="index.php" enctype="multipart/form-data" method="post">
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="apply">
       <div class="w-100">
         <h2 class="mb-5">Education</h2>
+        <div class="mb-3">
+        <label for="file"></label>
+          <input type="file" class="form-control" name="myfile" placeholder="" required>
+          <div class="invalid-feedback">
+            Please upload file.
+          </div>
+        </div>
 
-        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+        <!-- <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
           <div class="resume-content">
             <h3 class="mb-0">University of Colorado Boulder</h3>
             <div class="subheading mb-3">Bachelor of Science</div>
@@ -163,11 +314,15 @@
           <div class="resume-date text-md-right">
             <span class="text-primary">August 2002 - May 2006</span>
           </div>
-        </div>
+        </div> -->
 
+
+
+        <button name= "submit" class="btn btn-lg btn-primary btn-block" type="submit">Upload</button>
+        <button name= "download" class="btn btn-lg btn-primary btn-block" type="button">Download</button>
       </div>
     </section>
-
+</form>
     <hr class="m-0">
 
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="results">
@@ -234,7 +389,7 @@
 
     <hr class="m-0">
 
-  
+
 
 
 
