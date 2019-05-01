@@ -1,3 +1,11 @@
+<?php
+session_start();
+if(!$_SESSION["logon"]){
+ header("Location:../index.php");
+ die();
+}
+ ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,7 +61,7 @@
           <a class="nav-link js-scroll-trigger" href="#gradecard">Send Results</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="#results">Sign Out</a>
+          <a class="nav-link js-scroll-trigger" href="signout.php">Sign Out</a>
         </li>
 
       </ul>
@@ -240,7 +248,6 @@
       error_reporting(E_ALL ^ E_NOTICE );
       error_reporting(E_ERROR | E_PARSE);
       //session based login system
-      session_start();
 
           $count=1;
           $host="localhost";

@@ -67,7 +67,7 @@
        }
      //  echo $username."  ".$pwd;
      //  echo $conn;
-       $query="SELECT password,usertype,semester FROM users WHERE userid='$username'";
+       $query="SELECT password,usertype,semester,userid FROM users WHERE userid='$username'";
 
 
 
@@ -84,19 +84,29 @@
 
            if($res_pwd["usertype"]=="applicant"){
              header("Location:mainpageapp");
+             session_start();
              $_SESSION["userid"]=$res_pwd["userid"];
+             $_SESSION["logon"]=true;
 
              exit();
            }
            else if($res_pwd["usertype"]=="staff"){
              header("Location:mainpagestaff");
+             session_start();
+
              $_SESSION["userid"]=$res_pwd["userid"];
+             $_SESSION["logon"]=true;
+
 
              exit();
            }
            else if($res_pwd["usertype"]=="faculty"){
              header("Location:mainpagefaculty");
+             session_start();
+
              $_SESSION["userid"]=$res_pwd["userid"];
+             $_SESSION["logon"]=true;
+
 
              exit();
            }
@@ -105,6 +115,8 @@
 
              $_SESSION["semester"]=$res_pwd["semester"];
              $_SESSION["userid"]=$res_pwd["userid"];
+             $_SESSION["logon"]=true;
+
 
             // echo $res_pwd["semester"];
              header("Location:mainpagestudent");
