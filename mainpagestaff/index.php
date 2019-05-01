@@ -335,12 +335,10 @@
           die("Connection failed: " . $conn->connect_error);
           echo "failed";
         }
-      //  echo $username."  ".$pwd;
-      //  echo $conn;
-        $query="SELECT * FROM checkout WHERE id = '1'";
-      //  echo "string";
-        try{
 
+        $query="SELECT * FROM checkout WHERE id = '1'";
+        try
+        {
             if($res = mysqli_query($conn, $query))
             {
               if(mysqli_num_rows($res) > 0)
@@ -350,47 +348,89 @@
 
                   if($id[value]==1)
                   {
-                    echo "<script type='text/javascript'>alert('Registrations already closed .');</script>";
-                    return;
-                  }
-                  else {
                     ?>
                      <script type='text/javascript'>
-
                            document.getElementById("close").style.display = "none";
+                     </script>
+                    <?php
+                    $query9="SELECT * FROM applications WHERE Selected='Yes' ORDER by roll_number ASC";
+                    try{
 
+                        if($res = mysqli_query($conn, $query9))
+                        {
+                          if(mysqli_num_rows($res) > 0)
+                          {
+                            echo "Registrations already closed.Selected Students are as follows:";
+                            echo "<table>";
+                            echo "<tr>";
+                            echo "<th>Apply ID</th>";
+                            echo "<th>Student Name</th>";
+                            echo "<th>Student Email</th>";
+                            echo "<th>GATE Roll Number</th>";
+                            echo "<th>GATE Score</th>";
+                            echo "<th>Roll number</th>";
+                            echo "</tr>";
 
+                            while(($id = mysqli_fetch_array($res)))
+                            {
+                              echo "<tr>";
+                              echo '<td style="text-align:center;">' . $id[apply_id] . "</td>";
+                              echo '<td style="text-align:center;">' . $id[first_name] . " " . $id[last_name] . "</td>";
+                              echo '<td style="text-align:center;">' . $id[email] . "</td>";
+                              echo '<td style="text-align:center;">' . $id[gate_roll_no] . "</td>";
+                              echo '<td style="text-align:center;">' . $id[gate_score] . "</td>";
+                              echo '<td style="text-align:center;">' . $id[roll_number] . "</td>";
+                            //  echo "<td>" . '<img height="300" width="300" src= "data:image;base64,'.$id[file].' "> ' . "</td>";
+                              echo "</tr>";
+                              $count=$count+1;
+                            }
+                            echo "</table>";
+                            mysqli_free_result($res);
+                          }
+                          else
+                          {
+                            echo "No matching records are found.";
+                          }
+                        }
+                        else
+                        {
+                          echo "ERROR: Could not able to execute $query9. " . mysqli_error($conn);
+                        }
+                      }
+                    catch(Exception $e)
+                    {
+                      echo "error is".$e;
+                    }
+                  }
+                  else
+                  {
+                    ?>
+                     <script type='text/javascript'>
+                           document.getElementById("close").style.display = "none";
                      </script>
                     <?php
 
-                  }
-                  require '../libphp-phpmailer/class.phpmailer.php';
-                  require '../libphp-phpmailer/class.smtp.php';
+                    require '../libphp-phpmailer/class.phpmailer.php';
+                    require '../libphp-phpmailer/class.smtp.php';
 
                     $query2 = "UPDATE checkout SET value = '1' WHERE id = '1';";
                     mysqli_query($conn, $query2);
 
                     $query5="SELECT * FROM applications ORDER by gate_score DESC";
-                    try{
-
+                    try
+                    {
                         if($res = mysqli_query($conn, $query5))
                         {
                           if(mysqli_num_rows($res) > 0)
                           {
-
                             $count=1;
-
-
-
                             while(($id = mysqli_fetch_array($res)) && $count <=20)
                             {
-
                               $query6 = "UPDATE applications SET Selected = 'Yes' WHERE apply_id = '$id[apply_id]';";
                               mysqli_query($conn, $query6);
                               $count=$count+1;
                             }
                             mysqli_free_result($res);
-
                           }
                           else
                           {
@@ -403,36 +443,33 @@
                           //echo "ERROR: Could not able to execute $query. " . mysqli_error($conn);
                         }
 
-                      $query3="SELECT * FROM applications WHERE Selected = 'Yes' ORDER by first_name ASC";
-                      try{
-
+                        $query3="SELECT * FROM applications WHERE Selected = 'Yes' ORDER by first_name ASC";
+                        try
+                        {
                           if($res = mysqli_query($conn, $query3))
                           {
                             if(mysqli_num_rows($res) > 0)
                             {
-                              echo '<h2> Selected Students:</h2>';
-                              echo '<br>';
+                              echo "Registrations already closed.Selected Students are as follows:";
                               echo "<table>";
                               echo "<tr>";
-                              echo "<th>ID</th>";
+                              echo "<th>Apply ID</th>";
                               echo "<th>Name</th>";
                               echo "<th>Email</th>";
                               echo "<th>GATE Roll Number</th>";
                               echo "<th>GATE Score</th>";
                               echo "</tr>";
+
                               $count=1;
-
-
-
                               while(($id = mysqli_fetch_array($res)))
                               {
                                 echo "<tr>";
-                                echo "<td>" . $id[apply_id] . "</td>";
-                                echo "<td>" . $id[first_name] . " " . $id[last_name] . "</td>";
-                                echo "<td>" . $id[email] . "</td>";
-                                echo "<td>" . $id[gate_roll_no] . "</td>";
-                                echo "<td>" . $id[gate_score] . "</td>";
-                                echo "<td>" . '<img height="300" width="300" src= "data:image;base64,'.$id[file].' "> ' . "</td>";
+                                echo '<td style="text-align:center;">' . $id[apply_id] . '</td>';
+                                echo '<td style="text-align:center;">' . $id[first_name] . " " . $id[last_name] . '</td>';
+                                echo '<td style="text-align:center;">' . $id[email] . '</td>';
+                                echo '<td style="text-align:center;">' . $id[gate_roll_no] . '</td>';
+                                echo '<td style="text-align:center;">' . $id[gate_score] . '</td>';
+                              //  echo "<td>" . '<img height="300" width="300" src= "data:image;base64,'.$id[file].' "> ' . "</td>";
 
                                 echo "</tr>";
 
@@ -476,13 +513,11 @@
                                 }
                                 //$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
                                 //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
-
                                 $count=$count+1;
                               }
                               echo "</table>";
                               mysqli_free_result($res);
                               echo "<script type='text/javascript'>alert('Registration closed and sent mail to selected students');</script>";
-
                             }
                             else
                             {
@@ -494,35 +529,33 @@
                             echo "Connection Error";
                             //echo "ERROR: Could not able to execute $query. " . mysqli_error($conn);
                           }
-
-                      }
-                      catch(Exception $e)
-                      {
-                        echo "error is".$e;
-                      }
-                  }
-                  catch(Exception $e)
-                  {
-                    echo "error is".$e;
+                        }
+                        catch(Exception $e)
+                        {
+                          echo "error is".$e;
+                        }
+                    }
+                    catch(Exception $e)
+                    {
+                      echo "error is".$e;
+                    }
                   }
                 }
 
                 mysqli_free_result($res);
               }
-            else
-            {
-              echo "ERROR: Conncetion Error!!\n Could not able to execute $query. " . mysqli_error($conn);
+              else
+              {
+                echo "ERROR: Conncetion Error!!\n Could not able to execute $query. " . mysqli_error($conn);
+              }
             }
-
         }
-      }
         catch(Exception $e)
         {
           echo "error is".$e;
         }
         $conn->close();
       }
-
       ?>
 
     </section>

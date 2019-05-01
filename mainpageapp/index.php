@@ -337,33 +337,34 @@
 
               $check = getimagesize($_FILES["upload_file"]["tmp_name"]);
               if($check !== false) {
-                  echo "File is an image - " . $check["mime"] . ".";
+                //  echo "File is an image - " . $check["mime"] . ".";
                   $uploadOk = 1;
               } else {
-                  echo "File is not an image.";
+                //  echo "File is not an image.";
                   $uploadOk = 0;
               }
           // Check if file already exists
           if (file_exists($target_file)) {
-              echo "Sorry, file already exists.";
+            //  echo "Sorry, file already exists.";
               $uploadOk = 0;
           }
           // Check file size
           if ($_FILES["upload_file"]["size"] > 2097152) {
-              echo "Sorry, your file is too large.";
+            //  echo "Sorry, your file is too large.";
               $uploadOk = 0;
           }
           // Allow certain file formats
           if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-              echo "Sorry, only JPG, JPEG & PNG files are allowed.";
+            echo "<script type='text/javascript'>alert('Sorry, only JPG, JPEG & PNG files are allowed.');</script>";
               $uploadOk = 0;
           }
           // Check if $uploadOk is set to 0 by an error
           if ($uploadOk == 0) {
-              echo "Sorry, your file was not uploaded.";
+            echo "<script type='text/javascript'>alert('Sorry, file not uploaded.');</script>";
               die();
           // if everything is ok, try to upload file
           } else {
+    //        echo "<script type='text/javascript'>alert('Successfully uploaded');</script>";
             $file = addslashes($_FILES['upload_file']['tmp_name']);
             $file = file_get_contents($file);
             $file = base64_encode($file);

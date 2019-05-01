@@ -14,6 +14,23 @@ if(isset($_POST["submit"]))
     $data = $file;
     $tableName = "assignments";
 
+
+    $fileName = $_FILES['myfile']['name'];
+        $tmpName = $_FILES['myfile']['tmp_name'];
+        $fileSize = $_FILES['myfile']['size'];
+        $fileType = $_FILES['myfile']['type'];
+        $fileType = (get_magic_quotes_gpc() == 0 ? mysqli_real_escape_string(
+                                $_FILES['myfile']['type']) : mysqli_real_escape_string(
+                                stripslashes($_FILES['myfile'])));
+        $fp = fopen($tmpName, 'r');
+        $content = fread($fp, filesize($tmpName));
+        $content = addslashes($content);
+        fclose($fp);
+        if (!get_magic_quotes_gpc()) {
+            $fileName = addslashes($fileName);
+        }
+
+
     $host="localhost";
     $db="ds-portal";
     $dsn= "mysql:host=$host;dbname=$db";
@@ -27,7 +44,7 @@ if(isset($_POST["submit"]))
     if(isset($name)){
         if(!empty($name)){
 
-          $query="INSERT INTO assignments (id,course_id,Attachment) VALUES (DEFAULT,'$course_id','$data');";
+          $query="INSERT INTO assignments (id,course_id,Attachment,name,type,size) VALUES (DEFAULT,'$course_id','$content','$fileName','$fileType','$fileSize');";
 
             try
             {
@@ -53,83 +70,83 @@ if(isset($_POST["submit"]))
 
 }
 
-if(isset($_POST["download"]))
-{
-  if($_SERVER["REQUEST_METHOD"]=="POST"){
-
-    $host="localhost";
-    $db="ds-portal";
-    $dsn= "mysql:host=$host;dbname=$db";
-    $conn=new mysqli();
-    $conn=new mysqli($host,"root","",$db);
-    if($conn->connect_error){
-      die("Connection failed: " . $conn->connect_error);
-      echo "failed";
-    }
-  //  echo $username."  ".$pwd;
-  //  echo $conn;
-    $query="SELECT * FROM assignments ORDER by id DESC";
-    try{
-
-        if($res = mysqli_query($conn, $query))
-        {
-          $files = mysqli_fetch_all($result, MYSQLI_ASSOC);
-        }
-        else
-        {
-          echo "ERROR: Could not able to execute $query. " . mysqli_error($conn);
-        }
-
-        if (isset($_GET['file_id'])) {
-    $id = $_GET['file_id'];
-
-    // fetch file to download from database
-    $sql = "SELECT * FROM assignments WHERE id=$id";
-    $result = mysqli_query($conn, $sql);
-
-    $file = mysqli_fetch_assoc($result);
-    $filepath = 'uploads/' . $file['name'];
-
-
-        header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename=' . basename($filepath));
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate');
-        header('Pragma: public');
-        header('Content-Length: ' . filesize('uploads/' . $file['name']));
-        readfile('uploads/' . $file['name']);
-
-        exit;
-
-
-}
-        // $retval = mysqli_query($conn, $query);
-        // if(! $retval )
-        // {
-        //   die('Could not get data: ' . mysqli_error());
-        // }
-        //
-        // while($row = mysqli_fetch_array($retval, MYSQL_ASSOC) && count <=2)
-        // {
-        //   echo "<tr>";
-        //        echo "<td>" . $id[apply_id] . "</td>";
-        //        echo "<td>" . $id[first_name] . "</td>";
-        //        echo "<td>" . $id[last_name] . "</td>";
-        //        echo "<td>" . $id[email] . "</td>";950
-        //        echo "<td>" . $id[gate_roll_no] . "</td>";
-        //        echo "<td>" . $id[gate_score] . "</td>";
-        //   echo "</tr>";
-        //  echo "<br>";
-    }
-    catch(Exception $e)
-    {
-      echo "error is".$e;
-    }
-    $conn->close();
-    }
-
-}
+// if(isset($_POST["download"]))
+// {
+//   if($_SERVER["REQUEST_METHOD"]=="POST"){
+//
+//     $host="localhost";
+//     $db="ds-portal";
+//     $dsn= "mysql:host=$host;dbname=$db";
+//     $conn=new mysqli();
+//     $conn=new mysqli($host,"root","",$db);
+//     if($conn->connect_error){
+//       die("Connection failed: " . $conn->connect_error);
+//       echo "failed";
+//     }
+//   //  echo $username."  ".$pwd;
+//   //  echo $conn;
+//     $query="SELECT * FROM assignments ORDER by id DESC";
+//     try{
+//
+//         if($res = mysqli_query($conn, $query))
+//         {
+//           $files = mysqli_fetch_all($result, MYSQLI_ASSOC);
+//         }
+//         else
+//         {
+//           echo "ERROR: Could not able to execute $query. " . mysqli_error($conn);
+//         }
+//
+//         if (isset($_GET['file_id'])) {
+//     $id = $_GET['file_id'];
+//
+//     // fetch file to download from database
+//     $sql = "SELECT * FROM assignments WHERE id=$id";
+//     $result = mysqli_query($conn, $sql);
+//
+//     $file = mysqli_fetch_assoc($result);
+//     $filepath = './uploads' . $file['name'];
+//
+//
+//         header('Content-Description: File Transfer');
+//         header('Content-Type: application/octet-stream');
+//         header('Content-Disposition: attachment; filename=' . basename($filepath));
+//         header('Expires: 0');
+//         header('Cache-Control: must-revalidate');
+//         header('Pragma: public');
+//         header('Content-Length: ' . filesize('uploads/' . $file['name']));
+//         readfile('uploads/' . $file['name']);
+//
+//         exit;
+//
+//
+// }
+//         // $retval = mysqli_query($conn, $query);
+//         // if(! $retval )
+//         // {
+//         //   die('Could not get data: ' . mysqli_error());
+//         // }
+//         //
+//         // while($row = mysqli_fetch_array($retval, MYSQL_ASSOC) && count <=2)
+//         // {
+//         //   echo "<tr>";
+//         //        echo "<td>" . $id[apply_id] . "</td>";
+//         //        echo "<td>" . $id[first_name] . "</td>";
+//         //        echo "<td>" . $id[last_name] . "</td>";
+//         //        echo "<td>" . $id[email] . "</td>";950
+//         //        echo "<td>" . $id[gate_roll_no] . "</td>";
+//         //        echo "<td>" . $id[gate_score] . "</td>";
+//         //   echo "</tr>";
+//         //  echo "<br>";
+//     }
+//     catch(Exception $e)
+//     {
+//       echo "error is".$e;
+//     }
+//     $conn->close();
+//     }
+//
+// }
 ?>
 
 
@@ -420,7 +437,7 @@ if(isset($_POST["download"]))
             Please upload file.
           </div>
                   <button name= "submit" class="btn btn-lg btn-primary btn-block" type="submit">Upload</button>
-                  <button name= "download" class="btn btn-lg btn-primary btn-block" type="button">Download</button>
+                  <!-- <button name= "download" class="btn btn-lg btn-primary btn-block" type="button">Download</button> -->
         </div>
 
         <!-- <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">

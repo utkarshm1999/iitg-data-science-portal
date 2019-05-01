@@ -4,7 +4,7 @@ error_reporting(E_ERROR | E_PARSE);
 //session based login system
 session_start();
 
-$target_dir = "/uploads";
+$target_dir = "./uploads";
 $target_file = $target_dir . basename($_FILES["upload_file"]["name"]);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
