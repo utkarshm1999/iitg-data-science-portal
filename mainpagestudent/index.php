@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!$_SESSION["logon"]){
+if(!isset($_SESSION["logon"])  || !$_SESSION["logon"]){
  header("Location:../index.php");
  die();
 }
@@ -48,7 +48,7 @@ if(!$_SESSION["logon"]){
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
     <a class="navbar-brand js-scroll-trigger" href="#page-top">
-      <span class="d-block d-lg-none">Clarence Taylor</span>
+      <span class="d-block d-lg-none"> <?php echo $_SESSION["userid"]; ?></span>
       <span class="d-none d-lg-block">
         <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="img/iitg.png" alt="">
       </span>
@@ -64,9 +64,7 @@ if(!$_SESSION["logon"]){
         <li class="nav-item">
           <a class="nav-link js-scroll-trigger" href="#notices">View Notices</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link js-scroll-trigger" href="#apply">Download Gradecard</a>
-        </li>
+
         <li class="nav-item">
           <a class="nav-link js-scroll-trigger" href="#changepwd">Change Password</a>
         </li>
@@ -84,7 +82,6 @@ if(!$_SESSION["logon"]){
     <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="course">
       <div class="w-100">
         <?php
-          session_start();
           $sem=$_SESSION["semester"];
         ?>
         <h2 class="mb-5">Semester <?php echo $sem; ?></h2>
@@ -98,28 +95,24 @@ if(!$_SESSION["logon"]){
 
         <?php
           if( isset($_POST["c1_button"]) ){
-            session_start();
             $_SESSION["course"]=($sem-1)*5 + 1;
             header("Location:coursematerials.php");
 
           }
           else if(isset($_POST["c2_button"])){
-            session_start();
             $_SESSION["course"]=($sem-1)*5 + 2;
             header("Location:coursematerials.php");
           }
           else if(isset($_POST["c3_button"])){
-            session_start();
+
             $_SESSION["course"]=($sem-1)*5 + 3;
             header("Location:coursematerials.php");
           }
           else if(isset($_POST["c4_button"])){
-            session_start();
             $_SESSION["course"]=($sem-1)*5 + 4;
             header("Location:coursematerials.php");
           }
           else if(isset($_POST["c5_button"])){
-            session_start();
             $_SESSION["course"]=($sem-1)*5 + 5;
             header("Location:coursematerials.php");
           }
@@ -194,37 +187,7 @@ if(!$_SESSION["logon"]){
 
     </section>
 
-    <hr class="m-0">
 
-    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="apply">
-      <div class="w-100">
-        <h2 class="mb-5">Education</h2>
-
-        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
-          <div class="resume-content">
-            <h3 class="mb-0">University of Colorado Boulder</h3>
-            <div class="subheading mb-3">Bachelor of Science</div>
-            <div>Computer Science - Web Development Track</div>
-            <p>GPA: 3.23</p>
-          </div>
-          <div class="resume-date text-md-right">
-            <span class="text-primary">August 2006 - May 2010</span>
-          </div>
-        </div>
-
-        <div class="resume-item d-flex flex-column flex-md-row justify-content-between">
-          <div class="resume-content">
-            <h3 class="mb-0">James Buchanan High School</h3>
-            <div class="subheading mb-3">Technology Magnet Program</div>
-            <p>GPA: 3.56</p>
-          </div>
-          <div class="resume-date text-md-right">
-            <span class="text-primary">August 2002 - May 2006</span>
-          </div>
-        </div>
-
-      </div>
-    </section>
 
     <hr class="m-0">
 

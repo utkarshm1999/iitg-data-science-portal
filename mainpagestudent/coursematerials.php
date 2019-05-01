@@ -38,9 +38,10 @@
      <hr class="m-0">
      <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="notices">
        <div class="w-100">
-         <h2 class="mb-5">Course Mateirals for <?php echo "Course ID: ".$_SESSION["course"] ?></h2>
+         <h2 class="mb-5">Course Materials for <?php echo "Course ID: ".$_SESSION["course"] ?></h2>
 
      <?php
+     $course=$_SESSION["course"];
      $db="ds-portal";
      $host="localhost";
      $dsn= "mysql:host=$host;dbname=$db";
@@ -50,25 +51,29 @@
        die("Connection failed: " . $conn->connect_error);
        echo "failed";
      }
-     $query="SELECT * FROM notices";
+     $query="SELECT * FROM assignments WHERE course_id = '$course'";
      try{
 
        $result=$conn->query($query);
        if ($result->num_rows > 0) {
      // output data of each row
+     $count_f=0;
          while($row = $result->fetch_assoc()) {
+           $id=$row["id"];
+           $count_f++;
+           $name=$row["name"];
            ?>
 
 
                <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
                  <div class="resume-content">
-                   <h3 class="mb-0"> <?php echo $row["title"]; ?> </h3>
+                   <h3 class="mb-0"> <?php echo "File mumber ".$count_f; ?> </h3>
                    <div class="subheading mb-3">Description</div>
-                   <p><?php  echo $row["description"]; ?></p>
+                   <p><a href="coursematerials.php?id=<?php echo urlencode($id); ?>"
+                      ><?php echo urlencode($name); ?></a> <br></p>
+
                  </div>
-                 <div class="resume-date text-md-right">
-                   <span class="text-primary"><?php echo $row["date"] ?></span>
-                 </div>
+
                </div>
 
                <?php
@@ -87,6 +92,34 @@
    </div>
 
 
+   <?php
+   if (isset($_GET['id'])) {
+
+     $host="localhost";
+     $db="ds-portal";
+     $dsn= "mysql:host=$host;dbname=$db";
+     $conn=new mysqli();
+     $conn=new mysqli($host,"root","",$db);
+     if($conn->connect_error){
+       die("Connection failed: " . $conn->connect_error);
+       echo "failed";
+     }
+
+
+       $id = $_GET['id'];
+       $query = "SELECT name, type, size, Attachment FROM assignments WHERE id = '$id'";
+       $result = mysqli_query($conn,$query) or die('Error, query failed');
+       list($name, $type, $size, $content) = mysqli_fetch_array($result);
+       header("Content-length: $size");
+       header("Content-type: $type");
+       header("Content-Disposition: attachment; filename=$name");
+       ob_clean();
+       flush();
+       echo $content;
+       mysql_close();
+       exit;
+   }
+   ?>
 
 
 
